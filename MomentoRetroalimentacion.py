@@ -5,8 +5,7 @@
 
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
+import math
 
 
 #Implementación de regresión logística
@@ -74,13 +73,15 @@ y= df[['Survived']].to_numpy()
 x= np.nan_to_num(x)
 y= np.concatenate(y, axis=None)
 
+#División de dataset 
 
-
-
-
-x_train , x_test, y_train, y_test = train_test_split(x,y, test_size= 0.2,random_state=1234)
-
-
+pr= 0.8
+n_train = math.floor(pr * x.shape[0])
+n_test = math.ceil((1-pr) * x.shape[0])
+x_train = x[:n_train]
+y_train = y[:n_train]
+x_test = x[n_train:]
+y_test = y[n_train:]
 
 # Uso de regresión logística
 
@@ -88,16 +89,14 @@ log_reg = RegresionLogistica(0.0001, 100)
 log_reg.fitting(x_train, y_train)
 
 
-predicted = log_reg.predictions(x_test)
+# Testing del modelo
 
-print("Valores de los pesos: ")
-print(log_reg.weights)
+print("\n Train")
+y_predicted=log_reg.predictions(x_train)
+print("score : " ,check_accuracy(y_train,y_predicted))
+print("bias  : " ,log_reg.bias)
 
-print("Bias: ")
-print(log_reg.bias)
-
-#Get de accuracy
-
-print("Precisión: ")
-print(check_accuracy(y_test, predicted))
-
+print("\n Test")
+y_predicted=log_reg.predictions(x_test)
+print("score : " ,check_accuracy(y_test,y_predicted))
+print("bias  : " ,log_reg.bias)
