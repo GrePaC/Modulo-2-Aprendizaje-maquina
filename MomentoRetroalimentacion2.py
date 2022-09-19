@@ -3,6 +3,7 @@
 
 #Elaborado por: Grecia Pacheco Castellanos A01366730
 
+from turtle import color
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -12,7 +13,7 @@ from sklearn.model_selection import  GridSearchCV
 from pprint import pprint
 import matplotlib.pyplot as plt
 from matplotlib import style
-
+import seaborn as sns
 
 #MAIN
 
@@ -81,4 +82,20 @@ print("score : " ,rf_model.score(x_test,y_test))
 print("bias  : " ,rf_model.intercept_)
 print(classification_report(y_test,y_predicted))
 
+new_x =[]
+for i in range(0,len(y_test)):
+    new_x.append(i)
+
+fig,ax = plt.subplots()
+ax.scatter( new_x, y_test)
+ax.scatter(new_x,y_predicted, color= "red")
+plt.show()
+"""
+p1 = max(max(y_test), max(y_predicted))
+p2 = min(min(y_test), min(y_predicted))
+plt.plot([p1, p2], [p1, p2])
+plt.xlabel('True Values', fontsize=15)
+plt.ylabel('Predictions', fontsize=15)
+plt.axis('equal')
+"""
 
